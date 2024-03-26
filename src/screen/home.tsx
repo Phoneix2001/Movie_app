@@ -1,67 +1,53 @@
 import React, { useEffect, useState } from "react";
-import {  SafeAreaView,  StatusBar,  View,  useColorScheme } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View, useColorScheme } from "react-native";
 
 import Loader from "../Utils/CommonComponent/Loader";
 import { ListViewComponent } from "./components/ListViewComponent";
+import { MovieDetailsDataObject } from "../api/model/MovieDetailsDataObject";
+import { movieListGet } from "../api/repository/MoviesListRepository";
+import TileButton from "./components/Button";
+import { Text } from "react-native-elements";
+import { Appbar } from "react-native-paper";
+import { PrimaryAppBar } from "../Utils/CommonComponent/PrimaryAppBar";
 
-// URL of the Google Apps Script web app
-const url = 'https://script.google.com/macros/s/AKfycbwRPdoGh0swb1zc24MxJx1kAy2Bm4mf3vIrU8PDaPBXbAZ8IqXmYV_RG08IiNfQtEIW/exec';
-
-// Define a function to make the HTTP request
-async function fetchData() : Promise<any> {
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-   // console.log('Data received:', data);
-    return data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
+export type RootStackParamList = {
+  MovieDetails?: { id: number } | undefined;
+};
 
 
 function Home() {
-    const isDarkMode = useColorScheme() === 'dark';
-  const [listss,setList] = useState<any>([])
-  const [loading,setLoading] = useState<boolean>(true)
-    
+  const isDarkMode: boolean = useColorScheme() === 'dark';
+  const [listss, setList] = useState<MovieDetailsDataObject>()
+  const [loading, setLoading] = useState<boolean>(true)
+const [counter,setCounter]  = useState<number>(0);
   useEffect(() => {
-      getData();
-        },[])
+    getMovieList();
+  }, [])
 
+  async function getMovieList() {
+    let movieListGetData: MovieDetailsDataObject = await movieListGet();
 
+    setList(movieListGetData);
 
-    async function getData()  {
-     await fetchData().then((value: any) => {
-      console.log(value,"Value 123")
-        setList(value.output);
-        setLoading(false)
-        console.log(listss)
-      });
-    }
-
-
-
-    return (
-      <SafeAreaView style={{}}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}/>
-          
-     <View style={{height:"100%" }}>
-               {loading === false ?( <ListViewComponent list={listss}></ListViewComponent> ):(<Loader></Loader>) }
-               </View>
-       
-        
-        
-      </SafeAreaView>
-    );
+    setLoading(false);
   }
+  return (
+    <SafeAreaView>
+     <PrimaryAppBar centerTitle={true} showBackButton={true}></PrimaryAppBar>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <View style={{ height: "100%" }}>
+        {/* <Text>Counter Value : {counter}</Text>
+      <TileButton name={'Increase'} onPress={()=> {setCounter(counter + 1)}}></TileButton>
+      <TileButton name={'Decrease'} onPress={()=> {setCounter(counter - 1)}}></TileButton> */}
+        {loading === false ? (<ListViewComponent list={listss?.output}></ListViewComponent>) : (<Loader></Loader>)}
+      </View>
+    </SafeAreaView>
+  );
+}
 
 
-  
-  export { Home };
+
+
+export { Home };
+

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+
 import { Dimensions, GestureResponderEvent, StyleSheet, Text, View } from 'react-native';
 import TileButton from './Button';
 import NetworkImage from '../../Utils/CommonComponent/NetworkImage';
-import imagesArray from '../../Utils/Constants/constants';
 import RatingStars from './RatingComponent';
 import Colors from '../../Utils/Color/colors';
+import { MovieDetail, MovieDetailsDataObject } from '../../api/model/MovieDetailsDataObject';
 const { width, height } = Dimensions.get("window");
 type MovieItemProps = {
-  data: any;
+  data: MovieDetail;
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 function getRandomInt(max : any) {
@@ -20,14 +20,14 @@ const MovieItem = (props: MovieItemProps) => {
     <View style={{padding:7,display: 'flex',
     width: '100%',}}>
     <View style={styles.container}>
-      <NetworkImage style={styles.imageStyle} url={props.data.imageLink} clickActive={false}></NetworkImage>
+      <NetworkImage style={styles.imageStyle} url={props.data.imageLink ?? ""} clickActive={false}></NetworkImage>
       <View style={styles.desc} >
         <Text style={styles.movieName}>
-          {props.data.title.trim()}
+          {(props.data.title ?? "").trim()}
         </Text>
         <RatingStars rating={getRandomInt(5)}></RatingStars>
       </View>
-      <TileButton buttonStyle={styles.buttonStyles} name={'View'}></TileButton>
+      <TileButton buttonStyle={styles.buttonStyles} name={'View'} onPress={props.onPress}></TileButton>
     </View>
     </View>
   );
@@ -59,7 +59,7 @@ borderWidth:1,
    
     width: width * 0.46,
   },
-  movieName : {width:'100%',textAlign:'center'},
+  movieName : {width:'100%',textAlign:'center',color:Colors.light.primary},
   buttonStyles: {
     width: '90%',
     fontWeight: 'bold',

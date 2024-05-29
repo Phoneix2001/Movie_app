@@ -5,8 +5,7 @@ import SnackBar from "../../Utils/CommonFunctions/SnackBar";
 class NetworkApiService implements BaseApiServices {
   private static instance: NetworkApiService;
 
-
-  public static getInstance(): NetworkApiService {
+ public static getInstance(): NetworkApiService {
     if (!NetworkApiService.instance) {
       NetworkApiService.instance = new NetworkApiService();
     }

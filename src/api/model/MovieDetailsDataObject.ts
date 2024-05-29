@@ -7,6 +7,7 @@ export const MovieDetail = z.object({
     "imageLink": z.string(),
     "movieId": z.string(),
     "title": z.string(),
+    "trailer_link": z.string()
 });
 export type MovieDetail = z.infer<typeof MovieDetail>;
 

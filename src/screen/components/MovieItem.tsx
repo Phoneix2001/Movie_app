@@ -4,7 +4,7 @@ import TileButton from './Button';
 import NetworkImage from '../../Utils/CommonComponent/NetworkImage';
 import RatingStars from './RatingComponent';
 import Colors from '../../Utils/Color/colors';
-import { MovieDetail, MovieDetailsDataObject } from '../../api/model/MovieDetailsDataObject';
+import { MovieDetail } from '../../api/model/MovieDetailsDataObject';
 const { width, height } = Dimensions.get("window");
 type MovieItemProps = {
   data: MovieDetail;

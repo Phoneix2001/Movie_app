@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         borderRadius:15,
         alignItems:'center',
+        paddingHorizontal : 3,
         elevation:15,
         backgroundColor: Colors.light.primary,
       },

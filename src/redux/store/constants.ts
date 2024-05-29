@@ -1,0 +1,3 @@
+export const MOVIE_DETAILS_PAGE_SLICE = "MOVIE_DETAILS_PAGE_SLICE";
+
+export const MOVIE = "MOVIE";
